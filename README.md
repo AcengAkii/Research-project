@@ -4,6 +4,7 @@ import numpy as np
 import itertools
 import networkx as nx #
 import matplotlib.pyplot as plt
+import math
 
 def is_valid_graph(adj_matrix):
     n = len(adj_matrix)
@@ -14,6 +15,49 @@ def is_valid_graph(adj_matrix):
     if any(adj_matrix[i][i] != 0 for i in range(n)):
         return False
     return True
+
+def draw_graph(adj_matrix):
+    # Create an empty graph
+    G = nx.Graph()
+    # Add nodes
+    G.add_nodes_from(range(n))
+    # Add edges
+    for i in range(n):
+        for j in range(i+1, n):
+            if adj_matrix[i][j] == 1:
+                G.add_edge(i, j)
+            
+
+    # Print the graph
+    print("Graph:")
+    print(G.edges())
+
+    if n == 1:
+        pos = {0:(0.5,0.5)}
+    elif n ==2:
+        pos = {0:(0,1), 1:(1,1)}
+        colour = 'green'
+    elif n == 3:
+        pos = {0:(0,1) , 1:(1,1), 2:(0,0)}
+        colour = 'blue'
+    elif n ==4:
+        pos = {0:(0,1) , 1:(1,1), 2:(0,0) , 3:(1,0)}
+        colour = 'red'
+    elif n == 5:
+        pos = {0:(0,1) , 1:(1,1), 2:(0,0) , 3:(1,0), 4:(0.5, 1+ math.sqrt(4/5))}
+        colour = 'black'
+
+    # Visualize the graph
+    nx.draw(G, pos , edge_color = colour, width = 3,with_labels=True)
+    plt.title("Graph Visualization")
+
+    plt.savefig(f'graph1111_{matrix}')
+    plt.show()
+    plt.clf()
+            
+    print()
+    
+    return 
 
 def generate_all_graphs(n):
     count = 0
@@ -34,38 +78,13 @@ def generate_all_graphs(n):
             #store the adjacency matrix in a list.
             all_matrices.append(adj_matrix)
             
-            # Create an empty graph
-            G = nx.Graph()
-            # Add nodes
-            G.add_nodes_from(range(n))
-            # Add edges
-            for i in range(n):
-                for j in range(i+1, n):
-                    if adj_matrix[i][j] == 1:
-                        G.add_edge(i, j)
-            
-
-            # Print the graph
-            print("Graph:")
-            print(G.edges())
-            
-            
-            # Visualize the graph
-            nx.draw(G, with_labels=True)
-            plt.title("Graph Visualization")
-            
-            plt.savefig(f'graph1111_{matrix}')
-            plt.show()
-            plt.clf()
-            
-
-            
+            graphs = draw_graph(adj_matrix)
             print()
        
     return count,all_matrices
 
 # Define the size of the graphs
-n = 3  # Change this value to the desired size
+n = 4  # Change this value to the desired size
 
 # Generate and print all possible graphs of size n
 num_graphs = generate_all_graphs(n)
@@ -79,50 +98,54 @@ print(all_matrices)
 import numpy as np
 from collections import defaultdict
 
-
-
-def homomorphic(adj_matrices):
+def row_counts(matrix):    #to group the matricess according to degree on each vertex
+    matrix = np.array(matrix)
+    n = len(matrix)  # Number of rows
+    counts = []
     
-    def row_counts(matrix): #count the 1s and 0s and store them
-        counts = [(np.sum(row == 1), np.sum(row == 0)) for row in matrix]
-        return tuple(counts)
+    for i in range(n):
+        ones_count = np.sum(matrix[i, :] == 1)
+        zeros_count = np.sum(matrix[i, :] == 0)
+        counts.append((zeros_count, ones_count))
+    
+    return tuple(counts)
+
+
+
+def z1(matrix):     #count all the ones in the matrix, count all the zeros in the matrix
+    matrix = np.array(matrix)
+    count =[]
+    oone = np.sum(matrix == 1)
+    zzero = np.sum(matrix == 0)
+    count.append((zzero,oone))
+    
+    return tuple(count)
+
+def group(adj_matrices):     #to find homomorphic
     
     grouped_matrices = defaultdict(list) #creating an empty list
     
     for matrix in adj_matrices:
-        counts = row_counts(matrix)
+        counts = z1(matrix)                        
         grouped_matrices[counts].append(matrix)
-    
-
+        
     grouped_matrices = dict(grouped_matrices)
-    
-    #nnn = len(grouped_matrices)
-    
-    return grouped_matrices
+    nnn = len(grouped_matrices)
 
-a = homomorphic(all_matrices)
-print(a)
+    return grouped_matrices,nnn
 
-#To find the k-cliques and l-indep sets
 
-def rams(k,l):
-    #add up the number of 1's and zeros above the main diagonal each row
-    ones_count = [0] * n
-    zeros_count = [0] * n
+grouped, number_of_grps = group(all_matrices)
 
-    #by adding the number of ones and zeros we could maybe find the degree of each vertex and then the cliques..
+print(f'We can expect {number_of_grps} groups of graphs.')
+print()
+
+# Print each group of matrices
+for counts, matrices_list in grouped.items():
+    print(f"Group with counts {counts}:")
+    for matrix in matrices_list:
+        A = np.array(matrix)
+        print(A)
+        #dd = draw_graph(A)
+        print()
     
-    for i in range(n):
-        for j in range(n):
-            if matrix[i][j] == 1:
-                ones_count[i] +=1
-            elif matrix[i][j] == 0 and i != j: #leave out the diagonal
-                zeros[i] +=1
-    
-    # compare the elements of ones to find k
-    
-    
-    # compare the elements of zeros to find l
-    
-    
-    return N
