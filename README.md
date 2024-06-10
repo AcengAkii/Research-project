@@ -1,3 +1,6 @@
+# Graphs and Adjacency Matrices
+The code below will print out all the graphs and adjacency matrices.
+
 #Code used to generate graphs and adjacency matrices
 
 import numpy as np
@@ -6,6 +9,7 @@ import networkx as nx #
 import matplotlib.pyplot as plt
 import math
 
+#function 1
 def is_valid_graph(adj_matrix):
     n = len(adj_matrix)
     # Check if the matrix is symmetric
@@ -16,6 +20,7 @@ def is_valid_graph(adj_matrix):
         return False
     return True
 
+#function 2
 def draw_graph(adj_matrix):
     # Create an empty graph
     G = nx.Graph()
@@ -51,14 +56,15 @@ def draw_graph(adj_matrix):
     nx.draw(G, pos , edge_color = colour, width = 3,with_labels=True)
     plt.title("Graph Visualization")
 
-    plt.savefig(f'graph1111_{matrix}')
+    plt.savefig(f'graph1111_{adj_matrix}')
     plt.show()
     plt.clf()
             
     print()
     
     return 
-
+    
+#function 3
 def generate_all_graphs(n):
     count = 0
     # Generate all possible binary matrices of size n x n
@@ -83,6 +89,7 @@ def generate_all_graphs(n):
        
     return count,all_matrices
 
+    #Test it out
 # Define the size of the graphs
 n = 4  # Change this value to the desired size
 
@@ -93,59 +100,47 @@ print("Total number of graphs:", num_graphs[0])
 all_matrices =  num_graphs[1]
 print(all_matrices)
 
+# Homomorphic Graphs
+The code below should group together all homomorphic graphs and print out 1 graph as a representative of each group.
 
 #to find the homomorphic graphs
 import numpy as np
 from collections import defaultdict
 
-def row_counts(matrix):    #to group the matricess according to degree on each vertex
-    matrix = np.array(matrix)
-    n = len(matrix)  # Number of rows
-    counts = []
+#function 2 - ***
+def ones_per_row(matrix): #Another way to find the 'degree' of a vertex
+    return [row.count(1) for row in matrix]
     
-    for i in range(n):
-        ones_count = np.sum(matrix[i, :] == 1)
-        zeros_count = np.sum(matrix[i, :] == 0)
-        counts.append((zeros_count, ones_count))
+#function 3 - ***
+def group_matrices_by_ones(matrices): #regardless of row order group the matrices, according to ones per row.
+    groups = defaultdict(list)
     
-    return tuple(counts)
+    for matrix in matrices:
+        ones_count = ones_per_row(matrix)
+        ones_count_sorted = tuple(sorted(ones_count))
+        groups[ones_count_sorted].append(matrix)
 
+    nnn = len(groups)
+    return groups, nnn
 
-
-def z1(matrix):     #count all the ones in the matrix, count all the zeros in the matrix
-    matrix = np.array(matrix)
-    count =[]
-    oone = np.sum(matrix == 1)
-    zzero = np.sum(matrix == 0)
-    count.append((zzero,oone))
-    
-    return tuple(count)
-
-def group(adj_matrices):     #to find homomorphic
-    
-    grouped_matrices = defaultdict(list) #creating an empty list
-    
-    for matrix in adj_matrices:
-        counts = z1(matrix)                        
-        grouped_matrices[counts].append(matrix)
-        
-    grouped_matrices = dict(grouped_matrices)
-    nnn = len(grouped_matrices)
-
-    return grouped_matrices,nnn
-
-
-grouped, number_of_grps = group(all_matrices)
+#Test it out
+grouped, number_of_grps = group_matrices_by_ones(all_matrices)
 
 print(f'We can expect {number_of_grps} groups of graphs.')
 print()
 
-# Print each group of matrices
-for counts, matrices_list in grouped.items():
-    print(f"Group with counts {counts}:")
-    for matrix in matrices_list:
-        A = np.array(matrix)
-        print(A)
-        #dd = draw_graph(A)
-        print()
-    
+#print groups of adjacency matrices
+
+# nnn = len(all_matrices)
+# for k in range(nnn): 
+#     matrix = all_matrices[k]  
+#     a = draw_graph(matrix)
+#     print(a)
+
+for key, group in grouped.items(): #To print out the homomorphic adjacency graphs
+    print(f"Group {key}:")
+    group = np.array(group)
+    print(group)
+    print("=" * 40) 
+
+ # Draw 1 graph from each set of Homomorphic graphs
