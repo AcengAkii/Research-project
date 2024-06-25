@@ -1,0 +1,39 @@
+import numpy as np
+import itertools
+import networkx as nx #
+import matplotlib.pyplot as plt
+import math
+
+def draw_graph(adj_matrix):
+    # Create an empty graph
+    n = len(adj_matrix)
+    G = nx.Graph()
+    # Add nodes
+    G.add_nodes_from(range(n))
+    # Add edges
+    for i in range(n):
+        for j in range(i+1, n):
+            if adj_matrix[i][j] == 1:
+                G.add_edge(i, j)
+            
+    # Print the graph
+    print("Graph:")
+    print(G.edges())
+    
+    pos = {}
+    for i in range(n):
+        angle = 2 * math.pi * i / n
+        pos[i] = (math.cos(angle) + 1) / 2, (math.sin(angle) + 1) / 2
+
+   
+    # Visualize the graph
+    nx.draw(G, pos , edge_color = 'blue' , width = 3,with_labels=True)
+    plt.title("Graph Visualization")
+
+    #plt.savefig(f'graph1111_{adj_matrix}')
+    plt.show()
+    plt.clf()
+            
+    print()
+    
+    return 
