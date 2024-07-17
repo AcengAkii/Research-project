@@ -33,6 +33,6 @@ def all_adj_matrix(n):
         for i in range(n):
             for j in range(i+1, n):
                 A[j][i] = A[i][j]
-        
+        A = A.tolist() #new line here to produce lists of lists and not numpy arrays
         adjmat.append(A)
     return adjmat
