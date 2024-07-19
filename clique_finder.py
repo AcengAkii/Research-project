@@ -43,4 +43,9 @@ def find_cliques(n,k, l,adj_mat): #given a list of these
     else:
             #a clique of size k does exist
         print(f'l-independent set found')
+        
+        
+    # Now to find the the rows and columns in the matrix and check that they actually do form 
+    # 
+        
     return
