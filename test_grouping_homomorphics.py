@@ -1,5 +1,6 @@
 #Test the function for grouping the matrices
 import grouping_homomorphics as gh
+import drawing as dr
 
 #Test it out FOR N = 3
 A = [[0,0,0],[0,0,0],[0,0,0]]
@@ -12,9 +13,8 @@ G = [[0,0,1],[1,0,1],[1,0,0]]
 H = [[0,1,1],[1,0,1],[1,1,0]]
 
 all_matrices = [A,B,C,D,E,F,G,H]
-rep_els, number_of_grps = gh.group_matrices_by_ones(all_matrices)
 
-print(f'We can expect {number_of_grps} groups of graphs.')
-print()
+test_gh = gh.group_matrices_by_ones(all_matrices)
 
-#Test for N = 4
+
+#Test for N=4 
