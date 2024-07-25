@@ -1,8 +1,9 @@
-import numpy as np
-import itertools
+#import numpy as np
+#import itertools
 import networkx as nx #
 import matplotlib.pyplot as plt
 import math
+
 
 #make sure to define your matrices as lists of lists, and not numoy arrays.
 
@@ -19,10 +20,10 @@ def draw_graph(adj_matrix):
     for i in range(n):
         for j in range(i+1, n):
             if adj_matrix[i][j] == 1:
-                G.add_edge(i, j)
+                G.add_edge(i, j, color= 'blue')
             else:
-                G.add_edge(i,j)
-            
+                G.add_edge(i,j, color = 'red')
+                
     # Print the graph
     print("Graph:")
     print(G.edges())
@@ -33,13 +34,12 @@ def draw_graph(adj_matrix):
         pos[i] = (math.cos(angle) + 1) / 2, (math.sin(angle) + 1) / 2
         
                 
-    colors = ['blue', 'red']
-
+    edges = G.edges()
+    colors = [G[u][v]['color'] for u, v in edges]
+    
     # Visualize the graph
     
     nx.draw(G, pos , edge_color = colors , width = 3, with_labels=True)
-
-    
     plt.title("Graph Visualization")
 
     #plt.savefig(f'graph1111_{adj_matrix}')
@@ -49,6 +49,8 @@ def draw_graph(adj_matrix):
     print()
     
     return 
+
+
 
 
 
