@@ -2,7 +2,7 @@
 # homomorphic to one another. 
 
 import numpy as np
-import drawing as dr
+import function_drawing as dr
 from collections import defaultdict
 
 #A counting function - to determine the edge sequences

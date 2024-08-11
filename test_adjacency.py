@@ -1,8 +1,8 @@
 # Adjacency test - this file tests if the code will produce all the adjacency matrices.
 
-import adjacency as aj
-import grouping_homomorphics as gh
-import drawing as dr
+import function_adjacency as aj
+import function_grouping_homomorphics as gh
+import function_drawing as dr
 
 #test
 n = 2

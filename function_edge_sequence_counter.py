@@ -2,5 +2,5 @@
 # exists within the file.
 
 import numpy as np
-import grouping_homomorphics as gh
+import function_grouping_homomorphics as gh
 

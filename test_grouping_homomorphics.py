@@ -1,6 +1,6 @@
 #Test the function for grouping the matrices
-import grouping_homomorphics as gh
-import drawing as dr
+import function_grouping_homomorphics as gh
+import function_drawing as dr
 
 #Test it out FOR N = 3
 A = [[0,0,0],[0,0,0],[0,0,0]]

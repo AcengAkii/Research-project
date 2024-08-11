@@ -1,7 +1,7 @@
-import clique_finder as cf
-import grouping_homomorphics as gh
-import adjacency as aj
-import drawing as dr
+import function_clique_finder as cf
+import function_grouping_homomorphics as gh
+import function_adjacency as aj
+import function_drawing as dr
 
 #step 1- define vars
 n = 4

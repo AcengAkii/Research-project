@@ -1,9 +1,9 @@
 #This file is going to count the degree on each vertex, and then determine if a clique of a certain
 # exists within the file.
-import grouping_homomorphics as gh
-import drawing as dr
+import function_grouping_homomorphics as gh
+import function_drawing as dr
 import numpy as np
-import complement_graph as cg
+import function_complement_graph as cg
 #n - nodes, k- k-cliques, l-lindep sets
 def find_cliques(n,k, l,adj_mat): #given a list of adjacency matrices
     k1 = [] 
