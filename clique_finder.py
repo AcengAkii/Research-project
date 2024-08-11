@@ -113,6 +113,9 @@ def find_cliques2(k,l,adj_mat):
                 k1.append(a[1][p][i])
             else:
                 continue
+        print(np.array(a[0][p]))
+        dr.draw_graph_1color(a[0][p])
+        print('*************************', k)
 
         if len(k1) < k:
             #then no clique of size k exists
@@ -124,14 +127,12 @@ def find_cliques2(k,l,adj_mat):
             print('possible',k,'-clique exists in {}', a[1][p])
             
            
-        k1 = []
+            k1 = []
+            
+
         
-    #     print(np.array(a[0][p]))
-    #     dr.draw_graph_1color(a[0][p])
-    #     print('*************************', k)
-        
-    # print()
-    # print()
+        print()
+        print()
             
 ###################################      3      ##############################################
     #repeat for l-indep set    
@@ -160,12 +161,12 @@ def find_cliques2(k,l,adj_mat):
             pml.append(cmg[q][0])
             print('possible' ,l,'-independent set in {}', item)
             
-        # print(np.array(cmg[q][0]))
-        # dr.draw_graph_1color(cmg[q][0])
-        # print('*************************')
+        print(np.array(cmg[q][0]))
+        dr.draw_graph_1color(cmg[q][0])
+        print('*************************')
             
-        # print()
-        # print()
+        print()
+        print()
         
 ###################################      4      ##############################################
     print('*************************')
@@ -368,6 +369,107 @@ def find_cliques4(k, l, adj_mat):
 
 
 
+
+def find_cliques5(k,l,adj_mat):
+    k1 = [] 
+    l1 = []  #list to store nodes with high enough degrees to make a clique 
+    pmk =[]
+    pml = [] #list to store matrices with possible cliques
+    a = gh.group_matrices_by_ones(adj_mat)
+    a = list(a)
+    n = len(a[0][0])
+    m = len(a[1])
+    
+    lisst = a[1] #gh[1] returns the degree on each node per row (in blue)
+    lisst2 = []
+    l_list = a[1]
+    l2 = []
+    cmg = []
+    
+    admlist = a[0] #adjacency matrix list
+            
+    
+    for p in range(m):
+        print(np.array(a[0][p]))
+        # print('*************************', k)
+        
+        for i in range(n):
+            if a[1][p][i] >= k-1  : #you must have k-1 edges per node and k nodes to have a complete graph
+                k1.append(a[1][p][i])
+            else:
+                continue
+
+
+        if len(k1) < k:
+            #then no clique of size k exists
+            print('no' ,k,'-clique found in', a[1][p])
+            dr.draw_graph_1color_b(a[0][p])
+            print('*************************')
+        else:
+            #a clique of size k might exist
+            #now store the matrix in pmk
+            pmk.append(a[1][p])
+            print('possible',k,'-clique exists in {}', a[1][p])
+            dr.draw_graph_1color_b(a[0][p])
+            print('*************************')
+           
+            k1 = []
+
+        
+        print()
+        print()
+            
+###################################      3      ##############################################
+    #repeat for l-indep set    
+    #making the complement graphs
+    for item in admlist:
+        graph_matrix = cg.complement_graphs(item)
+        edge_seq = gh.ones_per_row(graph_matrix)
+        
+        cm = [graph_matrix,edge_seq]
+        cmg.append(cm)
+            
+
+    for q in range(m):
+        print(np.array(cmg[q][0]))
+        
+        for i in range(n):
+            if cmg[q][1][i] >= l-1:
+                l1.append(cmg[q][1][i])
+            else:
+                continue    
+            
+        if len(l1) < l:
+            #then no clique of size k exists
+            print('no' ,l,'-independent set found in {}', item)
+                        
+            dr.draw_graph_1color_r(cmg[q][0])
+            print('*************************')
+        else:
+            #a clique of size k does exist
+            #now store that matrix in pml
+            pml.append(cmg[q][0])
+            print('possible' ,l,'-independent set in {}', item)
+                        
+            dr.draw_graph_1color_r(cmg[q][0])
+            print('*************************')
+
+            
+        print()
+        print()
+        
+###################################      4      ##############################################
+    print('*************************')
+    
+    if len(k1)<k and len(l1)<l: #neither exist
+        print("increase the size of the graph")
+    else:
+        print('This graph my have eithe k or l no matter how you draw it')
+
+###################################      5      ##############################################
+    
+        
+    return pml, pmk
 
 
 
