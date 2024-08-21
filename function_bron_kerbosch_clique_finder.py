@@ -12,11 +12,14 @@ class MaximalCliquesFinder:
         nodes = list(self.graph.keys())
         self._extend([], nodes, []) #--compsub[], candidates, not[], this line is also how we will,
         #implement the recursion.
+        # a = self.maximal_cliques
+        # return a #new line to return cliques
 
     def _extend(self, compsub, candidates, not_set): #looping through new versions comp/cand/not
         if not candidates and not not_set: #if both 'candidate' and 'not' are empty compsub is a maximul clique
             self.maximal_cliques.append(compsub)
-            return
+            
+            return self.maximal_cliques.append(compsub)
 
         # Branch and bound: Choose a pivot
         pivot = candidates[0] if candidates else not_set[0] #1st element in candidate chosen
@@ -42,6 +45,13 @@ class MaximalCliquesFinder:
     def print_cliques(self):
         for clique in self.maximal_cliques: 
             print(clique)
+            
+    def list_of_cliques(self):
+        cl = []
+        for clique in self.maximal_cliques:
+            cl.append(clique)
+        return cl
+            
 
 
 # # Example usage- to only test inside this file
