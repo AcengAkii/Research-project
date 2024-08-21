@@ -19,8 +19,8 @@ class MaximalCliquesFinder:
             return
 
         # Branch and bound: Choose a pivot
-        #pivot = candidates[0] if candidates else not_set[0] #1st element in candidate chosen
-        pivot = max(candidates, key=lambda node: len(self.graph[node])) #element with highest degree chosen.
+        pivot = candidates[0] if candidates else not_set[0] #1st element in candidate chosen
+        #pivot = max(candidates, key=lambda node: len(self.graph[node])) #element with highest degree chosen.
         
         # Iterate through candidates not connected to the pivot
         for candidate in candidates[:]:
@@ -44,20 +44,20 @@ class MaximalCliquesFinder:
             print(clique)
 
 
-# Example usage- to only test inside this file
-if __name__ == "__main__":
-    # Define the graph as an adjacency dictionary
-    graph = {
-        0: [1, 2],
-        1: [0, 2, 3],
-        2: [0, 1, 3],
-        3: [1, 2, 4],
-        4: [3]
-    }
+# # Example usage- to only test inside this file
+# if __name__ == "__main__":
+#     # Define the graph as an adjacency dictionary
+#     graph = {
+#         0: [1, 2],
+#         1: [0, 2, 3],
+#         2: [0, 1, 3],
+#         3: [1, 2, 4],
+#         4: [3]
+#     }
 
-    # Initialize the clique finder
-    finder = MaximalCliquesFinder(graph)
+#     # Initialize the clique finder
+#     finder = MaximalCliquesFinder(graph)
     
-    # Find and print all maximal cliques
-    finder.find_cliques()
-    finder.print_cliques()
+#     # Find and print all maximal cliques
+#     finder.find_cliques()
+#     finder.print_cliques()
