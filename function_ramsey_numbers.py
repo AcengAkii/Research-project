@@ -4,7 +4,9 @@ import function_grouping_homomorphics as gh
 import function_bron_kerbosch_clique_finder as bk
 import function_matrix_to_edge_connection as mx
 import function_complement_graph as cm
+import numpy as np
 
+#%%
 def Rams(k,l):
     
     n = 2 #we start pur search at 2 nodes and will keep incrementing 
@@ -559,31 +561,41 @@ def Rams_comp333(k, l):
         for graph in n_h_graphs:
             
             # Step 5: Find the complement graph for l-set
-            complement_graph = cm.complement_graphs1(graph)
+            # complement_graph = cm.complement_graphs1(graph)
             
             # Step 6: Convert to dictionary format for processing
             k_graph = mx.adj_mat_dict(graph)
-            l_graph = mx.adj_mat_dict(complement_graph)
+            # l_graph = mx.adj_mat_dict(complement_graph)
             
             # Step 7: Find maximal cliques in both k_graph and l_graph
             clique_set_k = bk.MaximalCliquesFinder(k_graph)
             clique_set_k.find_cliques()
             clique_list_k = clique_set_k.list_of_cliques()
             
-            clique_set_l = bk.MaximalCliquesFinder(l_graph)
-            clique_set_l.find_cliques()
-            clique_list_l = clique_set_l.list_of_cliques()
+            # clique_set_l = bk.MaximalCliquesFinder(l_graph)
+            # clique_set_l.find_cliques()
+            # clique_list_l = clique_set_l.list_of_cliques()
             
             # Step 8: Find the largest cliques in both k_graph and l_graph
-            # k_max = max(clique_list_k, key=len)
-            # l_max = max(clique_list_l, key=len)
-            
-            k_max = clique_list_k[0]
-            l_max = clique_list_l[0]
-            
+            k_max = max(clique_list_k, key=len)
             length_k = len(k_max)
+            
+            if length_k == 1:
+                k_max=[]
+                l_max = list(np.zeros((n,1)))
+            
+            else:
+                l_max = list(np.zeros((n,1))) #complement graph
+                l_max = l_max[length_k:]
+            
             length_l = len(l_max)
             
+            
+            print('pair for this graph {graph}')
+            # k_max = clique_list_k[0]
+            # l_max = clique_list_l[0]
+            
+    
             print(k_max)
             print(l_max)
             
@@ -607,11 +619,11 @@ def Rams_comp333(k, l):
             
     return n
             
-# # Test the function
-# k = 3
-# l = 2
-# p = Rams_comp333(k, l)
-# print(p)
+# Test the function
+k = 3
+l = 2
+p = Rams_comp333(k, l)
+print(p)
 
 #%%
 for i in range(5):
