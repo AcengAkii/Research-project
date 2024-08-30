@@ -5,6 +5,8 @@ import function_drawing as dr
 import numpy as np
 import function_complement_graph as cg
 #n - nodes, k- k-cliques, l-lindep sets
+
+
 def find_cliques(n,k, l,adj_mat): #given a list of adjacency matrices
     k1 = [] 
     l1 = []  #list to store nodes with high enough degrees to make a clique 

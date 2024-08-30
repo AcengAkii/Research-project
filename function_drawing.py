@@ -40,6 +40,7 @@ def draw_graph(adj_matrix):
     # Visualize the graph
     
     nx.draw(G, pos , edge_color = colors , width = 3, with_labels=True)
+
     plt.title("Graph Visualization")
 
     #plt.savefig(f'graph1111_{adj_matrix}')
@@ -82,7 +83,7 @@ def draw_graph_1color(adj_matrix):
     # Visualize the graph
     nx.draw(G, pos , edge_color = 'blue', width = 3, with_labels=True)
     plt.title("Graph Visualization")
-
+    plt.figure(figsize=(4, 3))
     #plt.savefig(f'graph1111_{adj_matrix}')
     plt.show()
     plt.clf()

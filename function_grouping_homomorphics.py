@@ -41,8 +41,8 @@ def group_matrices_by_ones(matrices): #regardless of row order group the matrice
         
     nnn = len(groups)
     
-    print(f'We can expect {nnn} groups of graphs.')
-    print()
+    #print(f'We can expect {nnn} groups of graphs.')
+    #print()
     
         
     return llist, keeys
