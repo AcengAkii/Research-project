@@ -20,9 +20,9 @@ def draw_graph(adj_matrix):
     for i in range(n):
         for j in range(i+1, n):
             if adj_matrix[i][j] == 1:
-                G.add_edge(i, j, color= 'blue')
+                G.add_edge(i, j, color= 'red')
             else:
-                G.add_edge(i,j, color = 'red')
+                G.add_edge(i,j, color = 'blue')
                 
     # Print the graph
     print("Graph:")
@@ -41,6 +41,7 @@ def draw_graph(adj_matrix):
     
     nx.draw(G, pos , edge_color = colors , width = 3, with_labels=True)
     plt.title("Graph Visualization")
+    plt.figtext(0,0,"blue = indep set ; red=clique")
 
     #plt.savefig(f'graph1111_{adj_matrix}')
     plt.show()
@@ -51,167 +52,67 @@ def draw_graph(adj_matrix):
     return 
 
 
-def draw_graph_1color(adj_matrix):
+def draw_graph_1color(adj_matrix, colour):
     # Create an empty graph
     n = len(adj_matrix)
     G = nx.Graph()
     G2 = nx.Graph()
+    
     # Add nodes
     G.add_nodes_from(range(n))
     G2.add_nodes_from(range(n))
-    # Add edges
+    
+    # Add edges for the first graph (G)
     for i in range(n):
         for j in range(i+1, n):
             if adj_matrix[i][j] == 1:
                 G.add_edge(i, j)
                 
+    # Add edges for the second graph (G2) - this creates a complete graph of non-connections
     for p in range(n):
-        for q in range(p+1,n):
+        for q in range(p+1, n):
             if adj_matrix[p][q] == 0:
-                G2.add_edge(p,q)
+                G2.add_edge(p, q)
     
+    # Position nodes in a circular layout
     pos = {}
     for i in range(n):
         angle = 2 * math.pi * i / n
-        pos[i] = (math.cos(angle) + 1) / 2, (math.sin(angle) + 1) / 2
+        pos[i] = (math.cos(angle), math.sin(angle))
         
-    # Print the graph
-    print("Graph:")
-    #print(G.edges())
+    # Print the graph edges (optional)
+    print("Graph edges:", G.edges())
     
     # Visualize the graph
-    nx.draw(G, pos , edge_color = 'blue', width = 3, with_labels=True)
+    nx.draw(G, pos, edge_color=colour, width=3, with_labels=True)  # Corrected color usage
     plt.title("Graph Visualization")
-
-    #plt.savefig(f'graph1111_{adj_matrix}')
+    
     plt.show()
     plt.clf()
-            
-    # print()
-    # print('Graph complement')
-    # nx.draw(G2, pos , edge_color = 'red', width = 3, with_labels=True)
-    # plt.show()
-    # plt.clf()
-    
-    return 
 
 
-def draw_graph_1color_r(adj_matrix):
-    # Create an empty graph
-    n = len(adj_matrix)
+def draw_clique_graph(adj_matrix, clique_nodes):
+    # Create graph and add all nodes
     G = nx.Graph()
-    G2 = nx.Graph()
-    # Add nodes
-    G.add_nodes_from(range(n))
-    G2.add_nodes_from(range(n))
-    # Add edges
-    for i in range(n):
-        for j in range(i+1, n):
-            if adj_matrix[i][j] == 1:
-                G.add_edge(i, j)
-                
-    for p in range(n):
-        for q in range(p+1,n):
-            if adj_matrix[p][q] == 0:
-                G2.add_edge(p,q)
-    
-    pos = {}
-    for i in range(n):
-        angle = 2 * math.pi * i / n
-        pos[i] = (math.cos(angle) + 1) / 2, (math.sin(angle) + 1) / 2
-        
-    # Print the graph
-    print("Graph:")
-    #print(G.edges())
-    
-    # Visualize the graph
-    nx.draw(G, pos , edge_color = 'red', width = 3, with_labels=True)
-    plt.title("Graph Visualization")
-
-    plt.show()
-    plt.clf()
-                
-    return 
-
-#this function will l-sets and k-cliques in on two seperate graphs
-def draw_graph_1color_b(adj_matrix):
-    # Create an empty graph
     n = len(adj_matrix)
-    G = nx.Graph()
-    G2 = nx.Graph()
-    # Add nodes
-    G.add_nodes_from(range(n))
-    G2.add_nodes_from(range(n))
-    # Add edges
-    for i in range(n):
-        for j in range(i+1, n):
-            if adj_matrix[i][j] == 1:
-                G.add_edge(i, j)
-                
-    for p in range(n):
-        for q in range(p+1,n):
-            if adj_matrix[p][q] == 0:
-                G2.add_edge(p,q)
-    
-    pos = {}
-    for i in range(n):
-        angle = 2 * math.pi * i / n
-        pos[i] = (math.cos(angle) + 1) / 2, (math.sin(angle) + 1) / 2
-        
-    # Print the graph
-    print("Graph:")
-    #print(G.edges())
-    
-    # Visualize the graph
-    nx.draw(G, pos , edge_color = 'blue', width = 3, with_labels=True)
-    plt.title("Graph Visualization")
+    G.add_nodes_from(range(n))  # Add all nodes to the graph
 
-    #plt.savefig(f'graph1111_{adj_matrix}')
+    # Add edges for the clique
+    G.add_edges_from((i, j) for i in clique_nodes for j in clique_nodes if adj_matrix[i][j])
+
+    # Circular layout for all nodes
+    pos = {node: (math.cos(2 * math.pi * i / n), 
+                  math.sin(2 * math.pi * i / n)) 
+           for i, node in enumerate(range(n))}
+
+    # Draw the entire graph with all nodes
+    nx.draw(G, pos, edge_color='lightgray', width=1, with_labels=True)
+
+    # Highlight the clique edges in red
+    clique_edges = [(i, j) for i in clique_nodes for j in clique_nodes if adj_matrix[i][j]]
+    nx.draw_networkx_edges(G, pos, edgelist=clique_edges, edge_color='red', width=3)
+
+    plt.title("Clique Graph Visualization")
+    plt.axis('equal')  # Equal aspect ratio ensures that circles look circular.
     plt.show()
-    plt.clf()
-            
-    # print()
-    # print('Graph complement')
-    # nx.draw(G2, pos , edge_color = 'red', width = 3, with_labels=True)
-    # plt.show()
-    # plt.clf()
-    
-    return 
 
-
-def draw_graph_1color_r(adj_matrix):
-    # Create an empty graph
-    n = len(adj_matrix)
-    G = nx.Graph()
-    G2 = nx.Graph()
-    # Add nodes
-    G.add_nodes_from(range(n))
-    G2.add_nodes_from(range(n))
-    # Add edges
-    for i in range(n):
-        for j in range(i+1, n):
-            if adj_matrix[i][j] == 1:
-                G.add_edge(i, j)
-                
-    for p in range(n):
-        for q in range(p+1,n):
-            if adj_matrix[p][q] == 0:
-                G2.add_edge(p,q)
-    
-    pos = {}
-    for i in range(n):
-        angle = 2 * math.pi * i / n
-        pos[i] = (math.cos(angle) + 1) / 2, (math.sin(angle) + 1) / 2
-        
-    # Print the graph
-    print("Graph:")
-    #print(G.edges())
-    
-    # Visualize the graph
-    nx.draw(G, pos , edge_color = 'red', width = 3, with_labels=True)
-    plt.title("Graph Visualization")
-
-    plt.show()
-    plt.clf()
-                
-    return 
