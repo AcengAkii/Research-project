@@ -18,8 +18,7 @@ class MaximalCliquesFinder:
     def _extend(self, compsub, candidates, not_set): #looping through new versions comp/cand/not
         if not candidates and not not_set: #if both 'candidate' and 'not' are empty compsub is a maximul clique
             self.maximal_cliques.append(compsub)
-            
-            return self.maximal_cliques.append(compsub)
+            return
 
         # Branch and bound: Choose a pivot
         pivot = candidates[0] if candidates else not_set[0] #1st element in candidate chosen
@@ -46,28 +45,30 @@ class MaximalCliquesFinder:
         for clique in self.maximal_cliques: 
             print(clique)
             
-    def list_of_cliques(self):
-        cl = []
-        for clique in self.maximal_cliques:
-            cl.append(clique)
-        return cl
-            
+    def list_of_cliques(self): #This line so we can work with he list of cliques
+        a = list(self.maximal_cliques)
+        return a
+        
+    
 
 
 # # Example usage- to only test inside this file
-# if __name__ == "__main__":
-#     # Define the graph as an adjacency dictionary
-#     graph = {
-#         0: [1, 2],
-#         1: [0, 2, 3],
-#         2: [0, 1, 3],
-#         3: [1, 2, 4],
-#         4: [3]
-#     }
+if __name__ == "__main__":
+    # Define the graph as an adjacency dictionary
+    graph = {
+        0: [1, 2],
+        1: [0, 2, 3],
+        2: [0, 1, 3],
+        3: [1, 2, 4],
+        4: [3]
+    }
 
-#     # Initialize the clique finder
-#     finder = MaximalCliquesFinder(graph)
+#   Initialize the clique finder
+    finder = MaximalCliquesFinder(graph)
     
-#     # Find and print all maximal cliques
-#     finder.find_cliques()
-#     finder.print_cliques()
+#   Find and print all maximal cliques
+    finder.find_cliques()
+    b = finder.list_of_cliques()
+    print(b)
+    d = len(b)
+    print(d)
