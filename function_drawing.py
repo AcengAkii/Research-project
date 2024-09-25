@@ -11,6 +11,7 @@ import math
 #working with a list of them.
 
 def draw_graph(adj_matrix):
+
     # Create an empty graph
     n = len(adj_matrix)
     G = nx.Graph()
@@ -27,29 +28,33 @@ def draw_graph(adj_matrix):
     # Print the graph
     print("Graph:")
     print(G.edges())
+
+
     
-    pos = {}
-    for i in range(n):
-        angle = 2 * math.pi * i / n
-        pos[i] = (math.cos(angle) + 1) / 2, (math.sin(angle) + 1) / 2
+	pos = {}
+	for i in range(n):
+		angle = 2 * math.pi * i / n
+		pos[i] = (math.cos(angle) + 1) / 2, (math.sin(angle) + 1) / 2
         
-                
-    edges = G.edges()
-    colors = [G[u][v]['color'] for u, v in edges]
-    
-    # Visualize the graph
-    
+	edges = G.edges()
+	colors = [G[u][v]['color'] for u, v in edges]
+
     nx.draw(G, pos , edge_color = colors , width = 3, with_labels=True)
     plt.title("Graph Visualization")
     plt.figtext(0,0,"blue = indep set ; red=clique")
 
-    #plt.savefig(f'graph1111_{adj_matrix}')
-    plt.show()
-    plt.clf()
-            
-    print()
-    
-    return 
+
+	nx.draw(G, pos , edge_color = colors , width = 3, with_labels=True)
+
+	plt.title("Graph Visualization")
+
+	#plt.savefig(f'graph1111_{adj_matrix}')
+	plt.show()
+	plt.clf()
+	    
+	print()
+
+	return 
 
 
 def draw_graph_1color(adj_matrix, colour):
@@ -86,7 +91,7 @@ def draw_graph_1color(adj_matrix, colour):
     # Visualize the graph
     nx.draw(G, pos, edge_color=colour, width=3, with_labels=True)  # Corrected color usage
     plt.title("Graph Visualization")
-    
+
     plt.show()
     plt.clf()
 
