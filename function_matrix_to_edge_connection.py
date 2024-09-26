@@ -15,10 +15,10 @@ def adj_mat_dict(adj_mat):
 
 
 
-a = [[0,1,1],
-      [1,0,1],
-      [1,1,0]]
+# a = [[0,1,1],
+#       [1,0,1],
+#       [1,1,0]]
 
-if __name__ == "__main__":
-    b = adj_mat_dict(a)
-    print(b)
+# if __name__ == "__main__":
+#     b = adj_mat_dict(a)
+#     print(b)
