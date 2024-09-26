@@ -6,7 +6,7 @@ import function_drawing as dr
 from collections import defaultdict
 import networkx as nx
 import itertools
-import function_adjacency as aj
+import adjacency as aj
 
 #A counting function - to determine the edge sequences
 def ones_per_row(matrix): #Another way to find the 'degree' of a vertex
@@ -45,17 +45,9 @@ def group_matrices_by_ones(matrices): #regardless of row order group the matrice
     nnn = len(groups)
     
     print(f'We can expect {nnn} groups of graphs.')
-    #print()
-    
+    print()
         
     return llist, keeys
-
-
-
-
-
-
-
 
 
 def count_non_isomorphic_graphs(graphs):
