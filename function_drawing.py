@@ -3,8 +3,6 @@
 import networkx as nx #
 import matplotlib.pyplot as plt
 import math
-
-import matplotlib.pyplot as plt
 from io import BytesIO
 from PIL import Image
 
